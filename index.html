@@ -1286,12 +1286,12 @@ if (savedTheme === 'light') { darkTheme = false; document.documentElement.setAtt
 // SIDEBAR MOBILE
 // ═══════════════════════════════════════════════════
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebar-overlay').classList.toggle('show');
+  document.getElementById('sb').classList.toggle('open');
+  document.getElementById('sovl').classList.toggle('show');
 }
 function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-overlay').classList.remove('show');
+  document.getElementById('sb').classList.remove('open');
+  document.getElementById('sovl').classList.remove('show');
 }
 
 // ═══════════════════════════════════════════════════
@@ -1326,7 +1326,7 @@ function setMode(mode, btn) {
 // AUTOCOMPLETE
 // ═══════════════════════════════════════════════════
 const qInput = document.getElementById('qInput');
-const acList = document.getElementById('ac-list');
+const acList = document.getElementById('aclist');
 let acIdx = -1, acItems = [];
 
 qInput.addEventListener('input', () => {
@@ -1564,8 +1564,8 @@ document.getElementById('fav-count').textContent = favs.length;
 // ═══════════════════════════════════════════════════
 // EXPORT
 // ═══════════════════════════════════════════════════
-function openExport() { document.getElementById('export-modal').classList.add('show'); }
-function closeExport() { document.getElementById('export-modal').classList.remove('show'); }
+function openExport() { document.getElementById('expmodal').classList.add('show'); }
+function closeExport() { document.getElementById('expmodal').classList.remove('show'); }
 function doPrint() {
   closeExport();
   const body = document.querySelector('.ans-body');
@@ -1730,8 +1730,8 @@ function checkAlerts() {
     });
   });
   if (urgent.length) {
-    const bar = document.getElementById('alerts-bar');
-    document.getElementById('alert-msg').textContent = '⚠️ Prazos próximos: ' + urgent.join(' · ');
+    const bar = document.getElementById('alertbar');
+    document.getElementById('alertmsg').textContent = '⚠️ Prazos próximos: ' + urgent.join(' · ');
     bar.classList.add('show');
   }
 }
@@ -1910,9 +1910,9 @@ function renderFlash() {
   document.getElementById('flashOk').textContent = `✓ ${flashOk}`;
   document.getElementById('flashFail').textContent = `✗ ${flashFail}`;
   flashFlipped = false;
-  document.getElementById('flashCard').classList.remove('flipped');
+  document.getElementById('flashScene').classList.remove('flipped');
 }
-function flipFlash() { flashFlipped=!flashFlipped; document.getElementById('flashCard').classList.toggle('flipped',flashFlipped); }
+function flipFlash() { flashFlipped=!flashFlipped; document.getElementById('flashScene').classList.toggle('flipped',flashFlipped); }
 function nextFlash() { if(flashIdx<FLASHCARDS.length-1){flashIdx++;renderFlash();} }
 function prevFlash() { if(flashIdx>0){flashIdx--;renderFlash();} }
 function rateFlash(ok) { if(ok) flashOk++; else flashFail++; trackProgress('flash'); nextFlash(); }
@@ -1931,8 +1931,8 @@ let simQuestions=[], simIdx=0, simAcertos=0, simAnswered=false, simTimer=null, s
 function startSimulado() {
   const shuffled = [...QUIZ_QUESTIONS].sort(()=>Math.random()-.5).slice(0,15);
   simQuestions=shuffled; simIdx=0; simAcertos=0; simAnswered=false; simTimeLeft=1800;
-  document.getElementById('simulado-start').style.display='none';
-  document.getElementById('simulado-game').style.display='block';
+  document.getElementById('sim-start').style.display='none';
+  document.getElementById('sim-game').style.display='block';
   document.getElementById('simResult').classList.remove('show');
   renderSim(); startSimTimer();
 }
@@ -1975,7 +1975,7 @@ function answerSim(idx) {
 function nextSim() { simIdx++; if(simIdx<simQuestions.length) renderSim(); else showSimResult(); }
 function showSimResult() {
   clearInterval(simTimer);
-  document.getElementById('simulado-game').style.display='none';
+  document.getElementById('sim-game').style.display='none';
   const pct=Math.round(simAcertos/simQuestions.length*100);
   saveScore('simulado',simAcertos,simQuestions.length);
   const r=document.getElementById('simResult'); r.classList.add('show');
@@ -1986,9 +1986,9 @@ function showSimResult() {
 }
 function resetSim() {
   clearInterval(simTimer);
-  document.getElementById('simulado-game').style.display='none';
+  document.getElementById('sim-game').style.display='none';
   document.getElementById('simResult').classList.remove('show');
-  document.getElementById('simulado-start').style.display='block';
+  document.getElementById('sim-start').style.display='block';
 }
 
 // ═══════════════════════════════════════════════════
@@ -2038,7 +2038,7 @@ function renderProgress() {
     {icon:'🏆',name:'Especialista',desc:'90%+ no Quiz',earned:bestQuiz>=90},
     {icon:'⚖️',name:'Mestre do Convênio',desc:'Tudo explorado',earned:visited>=totalPages},
   ];
-  const bg = document.getElementById('badgeGrid');
+  const bg = document.getElementById('badgeWall');
   if (bg) bg.innerHTML = badges.map(b=>
     `<div class="badge-item ${b.earned?'earned':''}">
       <div class="badge-icon">${b.icon}</div>
